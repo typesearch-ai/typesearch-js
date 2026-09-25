@@ -1,4 +1,4 @@
-// Generado por scripts/generate-types.mjs desde el OpenAPI de la API (1.0.0, a3cea60b7c89).
+// Generado por scripts/generate-types.mjs desde el OpenAPI de la API (1.0.0, 336df2c4e996).
 // No editar a mano: `npm run generate` (o `npm run generate -- --fetch` para traer el vivo).
 
 /** Any JSON value. */
@@ -13,6 +13,10 @@ export interface SearchRequest {
   include_domains?: string[];
   /** Never these domains or paths. At most 20 items. */
   exclude_domains?: string[];
+  /** Only sources from these countries: ISO 3166-1 alpha-2 codes, such as AR or US. GET /v1/sources tells how many sources each country has. 1–50 items. */
+  countries?: string[];
+  /** Only sources that publish in these languages: ISO 639-1 codes, such as es or en (a BCP 47 tag such as pt-BR counts as pt). 1–20 items. */
+  languages?: string[];
   /** Only these sections: the section in the feed, or the start of the URL path. At most 20 items. */
   sections?: string[];
   /** The last N days; null for the whole index. Defaults to 7 unless dates are given. 1–365. */
@@ -21,7 +25,7 @@ export interface SearchRequest {
   published_after?: string;
   /** Published on or before this date; a bare date includes that whole day. */
   published_before?: string;
-  /** ultra: headlines only · fast: headlines and standfirsts (these two cost the least, the same) · normal: reads the best matches · deep: more headlines, the topic also in other words (synonyms and acronyms), twice the reading, snippets and the essentials of each article, and the search of the sites that cover the topic when the index falls short. Defaults to `"normal"`. */
+  /** ultra: headlines only, the cheapest · fast: headlines and standfirsts · normal: reads the best matches · deep: more headlines, the topic also in other words (synonyms and acronyms), twice the reading, snippets and the essentials of each article, and the search of the sites that cover the topic when the index falls short. Defaults to `"normal"`. */
   mode?: Mode;
   /** 1–50. Defaults to `10`. */
   max_results?: number;
@@ -47,7 +51,7 @@ export interface SearchRequest {
   stream?: boolean;
 }
 
-/** ultra: headlines only · fast: headlines and standfirsts (these two cost the least, the same) · normal: reads the best matches · deep: more headlines, the topic also in other words (synonyms and acronyms), twice the reading, snippets and the essentials of each article, and the search of the sites that cover the topic when the index falls short. */
+/** ultra: headlines only, the cheapest · fast: headlines and standfirsts · normal: reads the best matches · deep: more headlines, the topic also in other words (synonyms and acronyms), twice the reading, snippets and the essentials of each article, and the search of the sites that cover the topic when the index falls short. */
 export type Mode = "ultra" | "fast" | "normal" | "deep";
 
 export type Question = BooleanQuestion | ChoiceQuestion | ScoreQuestion;
@@ -84,6 +88,10 @@ export interface SimilarRequest {
   include_domains?: string[];
   /** Never these domains or paths. At most 20 items. */
   exclude_domains?: string[];
+  /** Only sources from these countries: ISO 3166-1 alpha-2 codes, such as AR or US. GET /v1/sources tells how many sources each country has. 1–50 items. */
+  countries?: string[];
+  /** Only sources that publish in these languages: ISO 639-1 codes, such as es or en (a BCP 47 tag such as pt-BR counts as pt). 1–20 items. */
+  languages?: string[];
   /** Only these sections: the section in the feed, or the start of the URL path. At most 20 items. */
   sections?: string[];
   /** The last N days; null for the whole index. Defaults to 7 unless dates are given. 1–365. */
@@ -92,7 +100,7 @@ export interface SimilarRequest {
   published_after?: string;
   /** Published on or before this date; a bare date includes that whole day. */
   published_before?: string;
-  /** ultra: headlines only · fast: headlines and standfirsts (these two cost the least, the same) · normal: reads the best matches · deep: more headlines, the topic also in other words (synonyms and acronyms), twice the reading, snippets and the essentials of each article, and the search of the sites that cover the topic when the index falls short. Defaults to `"normal"`. */
+  /** ultra: headlines only, the cheapest · fast: headlines and standfirsts · normal: reads the best matches · deep: more headlines, the topic also in other words (synonyms and acronyms), twice the reading, snippets and the essentials of each article, and the search of the sites that cover the topic when the index falls short. Defaults to `"normal"`. */
   mode?: Mode;
   /** 1–50. Defaults to `10`. */
   max_results?: number;
@@ -124,7 +132,7 @@ export interface SiteSearchRequest {
   sections?: string[];
   /** Never these domains or paths. At most 20 items. */
   exclude_domains?: string[];
-  /** ultra: headlines only · fast: headlines and standfirsts (these two cost the least, the same) · normal: reads the best matches · deep: more headlines, the topic also in other words (synonyms and acronyms), twice the reading, snippets and the essentials of each article, and the search of the sites that cover the topic when the index falls short. Defaults to `"normal"`. */
+  /** ultra: headlines only, the cheapest · fast: headlines and standfirsts · normal: reads the best matches · deep: more headlines, the topic also in other words (synonyms and acronyms), twice the reading, snippets and the essentials of each article, and the search of the sites that cover the topic when the index falls short. Defaults to `"normal"`. */
   mode?: Mode;
   /** 1–50. Defaults to `10`. */
   max_results?: number;
@@ -213,6 +221,10 @@ export interface Result {
   title: string;
   /** The outlet that published it. */
   source: string | null;
+  /** Country of the source (ISO 3166-1 alpha-2), when known. */
+  country: string | null;
+  /** Language of the source (ISO 639-1), when known: for a source in several languages, the one asked for in `languages`, or its main one. */
+  language: string | null;
   /** Publication date-time (ISO 8601, UTC), when known. */
   published_at: string | null;
   /** The section the outlet declares, or the first segment of the URL path. */
@@ -576,7 +588,7 @@ export interface RequestPricing {
   normal: number;
   deep: number;
   similar: number;
-  /** Similar in deep mode, which reads eight articles with highlights (on Exa: findSimilar plus text and highlights for eight pages). */
+  /** Similar in deep mode, which reads eight articles and returns highlights. */
   similar_deep: number;
   site_search: number;
 }
@@ -595,6 +607,10 @@ export interface SearchOptions {
   include_domains?: string[];
   /** Never these domains or paths. At most 20 items. */
   exclude_domains?: string[];
+  /** Only sources from these countries: ISO 3166-1 alpha-2 codes, such as AR or US. GET /v1/sources tells how many sources each country has. 1–50 items. */
+  countries?: string[];
+  /** Only sources that publish in these languages: ISO 639-1 codes, such as es or en (a BCP 47 tag such as pt-BR counts as pt). 1–20 items. */
+  languages?: string[];
   /** Only these sections: the section in the feed, or the start of the URL path. At most 20 items. */
   sections?: string[];
   /** The last N days; null for the whole index. Defaults to 7 unless dates are given. 1–365. */
@@ -603,7 +619,7 @@ export interface SearchOptions {
   published_after?: string | Date;
   /** Published on or before this date; a bare date includes that whole day. */
   published_before?: string | Date;
-  /** ultra: headlines only · fast: headlines and standfirsts (these two cost the least, the same) · normal: reads the best matches · deep: more headlines, the topic also in other words (synonyms and acronyms), twice the reading, snippets and the essentials of each article, and the search of the sites that cover the topic when the index falls short. Defaults to `"normal"`. */
+  /** ultra: headlines only, the cheapest · fast: headlines and standfirsts · normal: reads the best matches · deep: more headlines, the topic also in other words (synonyms and acronyms), twice the reading, snippets and the essentials of each article, and the search of the sites that cover the topic when the index falls short. Defaults to `"normal"`. */
   mode?: Mode;
   /** 1–50. Defaults to `10`. */
   max_results?: number;
@@ -635,6 +651,10 @@ export interface SimilarOptions {
   include_domains?: string[];
   /** Never these domains or paths. At most 20 items. */
   exclude_domains?: string[];
+  /** Only sources from these countries: ISO 3166-1 alpha-2 codes, such as AR or US. GET /v1/sources tells how many sources each country has. 1–50 items. */
+  countries?: string[];
+  /** Only sources that publish in these languages: ISO 639-1 codes, such as es or en (a BCP 47 tag such as pt-BR counts as pt). 1–20 items. */
+  languages?: string[];
   /** Only these sections: the section in the feed, or the start of the URL path. At most 20 items. */
   sections?: string[];
   /** The last N days; null for the whole index. Defaults to 7 unless dates are given. 1–365. */
@@ -643,7 +663,7 @@ export interface SimilarOptions {
   published_after?: string | Date;
   /** Published on or before this date; a bare date includes that whole day. */
   published_before?: string | Date;
-  /** ultra: headlines only · fast: headlines and standfirsts (these two cost the least, the same) · normal: reads the best matches · deep: more headlines, the topic also in other words (synonyms and acronyms), twice the reading, snippets and the essentials of each article, and the search of the sites that cover the topic when the index falls short. Defaults to `"normal"`. */
+  /** ultra: headlines only, the cheapest · fast: headlines and standfirsts · normal: reads the best matches · deep: more headlines, the topic also in other words (synonyms and acronyms), twice the reading, snippets and the essentials of each article, and the search of the sites that cover the topic when the index falls short. Defaults to `"normal"`. */
   mode?: Mode;
   /** 1–50. Defaults to `10`. */
   max_results?: number;
@@ -673,7 +693,7 @@ export interface SiteSearchOptions {
   sections?: string[];
   /** Never these domains or paths. At most 20 items. */
   exclude_domains?: string[];
-  /** ultra: headlines only · fast: headlines and standfirsts (these two cost the least, the same) · normal: reads the best matches · deep: more headlines, the topic also in other words (synonyms and acronyms), twice the reading, snippets and the essentials of each article, and the search of the sites that cover the topic when the index falls short. Defaults to `"normal"`. */
+  /** ultra: headlines only, the cheapest · fast: headlines and standfirsts · normal: reads the best matches · deep: more headlines, the topic also in other words (synonyms and acronyms), twice the reading, snippets and the essentials of each article, and the search of the sites that cover the topic when the index falls short. Defaults to `"normal"`. */
   mode?: Mode;
   /** 1–50. Defaults to `10`. */
   max_results?: number;

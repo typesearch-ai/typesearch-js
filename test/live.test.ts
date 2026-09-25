@@ -1,7 +1,7 @@
 /*
  * Contra la API de verdad: corre sólo con `npm run test:live` y TYPESEARCH_API_KEY en el entorno (con
  * `npm test` se saltea aunque haya clave, para no gastar sin querer).
- * Gasta muy poco: dos búsquedas `fast` de 3 resultados y el contenido de una URL; `sources` y
+ * Gasta muy poco: tres búsquedas `fast` de 3 resultados y el contenido de una URL; `sources` y
  * `usage` no cobran. Con TYPESEARCH_LIVE_FULL=1 suma `similar` y una búsqueda en un sitio en vivo.
  * TYPESEARCH_BASE_URL apunta a otra API (local o de prueba).
  */
@@ -36,6 +36,14 @@ describe.skipIf(!key)('live API', () => {
       expect(r.url).toMatch(/^https?:\/\//);
     }
     url = res.results[0]?.url;
+  }, 60_000);
+
+  test('search, fast, only sources from a country and in a language', async () => {
+    const res = await ts.search('inflación', { mode: 'fast', max_results: 3, days: 7, countries: ['AR'], languages: ['es'] });
+    for (const r of res.results) {
+      expect(r.country).toBe('AR');
+      expect(r.language).toBe('es');
+    }
   }, 60_000);
 
   test('stream, fast', async () => {

@@ -95,6 +95,13 @@ describe('search', () => {
     expect(res.queries).toEqual(['el dólar', 'el FMI']);
   });
 
+  test('countries and languages filter the sources; each result says its country and language', async () => {
+    const res = await ts.search('inflación', { countries: ['AR', 'UY'], languages: ['es'] });
+    expect(api.last.body).toEqual({ query: 'inflación', countries: ['AR', 'UY'], languages: ['es'] });
+    expect(res.results[0]?.country).toBe('AR');
+    expect(res.results[0]?.language).toBe('es');
+  });
+
   test('a field the API does not know is rejected by the API, as a typed error with `errors`', async () => {
     const e = await ts.search('el dólar', { colour: 'red' } as never).catch((x: unknown) => x);
     expect(e).toBeInstanceOf(BadRequestError);
@@ -114,6 +121,8 @@ describe('similar and contents', () => {
     expect(api.last.body).toEqual({ url: 'https://diarioejemplo.example/economia/nota', mode: 'fast', exclude_domains: ['diarioejemplo.example'] });
     expect(res.object).toBe('similar');
     expect(res.reference?.url).toBe('https://diarioejemplo.example/economia/nota');
+    await ts.similar('https://diarioejemplo.example/economia/nota', { countries: ['AR'], languages: ['es'] });
+    expect(api.last.body).toEqual({ url: 'https://diarioejemplo.example/economia/nota', countries: ['AR'], languages: ['es'] });
   });
 
   test('contents: a list or a single URL; each page with its own status', async () => {

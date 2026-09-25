@@ -58,6 +58,8 @@ export function result(n: number, extra: Record<string, unknown> = {}) {
     url: `https://diarioejemplo.example/economia/nota-${n}`,
     title: `El dólar cerró estable por ${n}ª rueda`,
     source: 'Diario Ejemplo',
+    country: 'AR',
+    language: 'es',
     published_at: '2026-09-21T18:05:00.000Z',
     section: 'economia',
     snippet: 'La divisa se mantuvo sin cambios frente al cierre anterior.',

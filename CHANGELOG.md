@@ -11,6 +11,8 @@ First release.
   `contents`, `siteSearch`, `siteSearchAndWait`, `siteSearchStream`, `jobs.get`, `jobs.wait`, `sources`
   and `usage`.
 - Request and response types generated from the API's OpenAPI document.
+- `countries` and `languages` filters in `search`, `searchStream` and `similar`; every result carries the
+  `country` and `language` of its source.
 - Automatic retries with exponential backoff and jitter for connection errors, timeouts, `429 rate_limited`
   and `5xx`, honouring `Retry-After`; `quota_exceeded` is never retried.
 - Per-request `timeout`, `maxRetries`, `signal` and `headers`.
