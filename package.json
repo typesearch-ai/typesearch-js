@@ -1,0 +1,75 @@
+{
+  "name": "typesearch-js",
+  "version": "0.1.0",
+  "description": "Official TypeScript/JavaScript SDK for the typesearch news search API: search for AI agents, with a calibrated relevance score on every result.",
+  "keywords": [
+    "typesearch",
+    "news",
+    "news-api",
+    "search",
+    "search-api",
+    "ai",
+    "agents",
+    "llm",
+    "rag",
+    "sdk"
+  ],
+  "homepage": "https://typesearch.ai/docs/sdks/typescript",
+  "bugs": "https://github.com/typesearch-ai/typesearch-js/issues",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/typesearch-ai/typesearch-js.git"
+  },
+  "license": "MIT",
+  "author": "typesearch (https://typesearch.ai)",
+  "type": "module",
+  "main": "./dist/cjs/index.js",
+  "module": "./dist/esm/index.js",
+  "types": "./dist/esm/index.d.ts",
+  "exports": {
+    ".": {
+      "import": {
+        "types": "./dist/esm/index.d.ts",
+        "default": "./dist/esm/index.js"
+      },
+      "require": {
+        "types": "./dist/cjs/index.d.ts",
+        "default": "./dist/cjs/index.js"
+      }
+    },
+    "./package.json": "./package.json"
+  },
+  "files": [
+    "dist",
+    "README.md",
+    "CHANGELOG.md",
+    "LICENSE"
+  ],
+  "sideEffects": false,
+  "engines": {
+    "node": ">=18"
+  },
+  "scripts": {
+    "generate": "node scripts/generate-types.mjs",
+    "build": "rm -rf dist && tsc -p tsconfig.build.json && tsc -p tsconfig.cjs.json && node scripts/cjs.mjs",
+    "typecheck": "tsc --noEmit",
+    "lint": "npm run typecheck && node scripts/generate-types.mjs --check",
+    "test": "vitest run",
+    "test:coverage": "vitest run --coverage",
+    "test:live": "TYPESEARCH_LIVE=1 vitest run test/live.test.ts",
+    "smoke": "node test/smoke/esm.mjs && node test/smoke/cjs.cjs",
+    "prepublishOnly": "npm run lint && npm test && npm run build && npm run smoke"
+  },
+  "devDependencies": {
+    "@types/node": "^22.18.0",
+    "@vitest/coverage-v8": "^3.2.4",
+    "ajv": "^8.17.1",
+    "ajv-formats": "^3.0.1",
+    "typescript": "^5.9.3",
+    "vitest": "^3.2.4"
+  },
+  "publishConfig": {
+    "access": "public",
+    "provenance": true
+  }
+}

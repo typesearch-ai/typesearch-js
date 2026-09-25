@@ -1,0 +1,22 @@
+# Once a week, compares the generated types with the live OpenAPI of the API. If the API changed, this
+# fails: run `npm run generate -- --fetch`, review the diff and release.
+name: OpenAPI drift
+
+on:
+  schedule:
+    - cron: '17 9 * * 1'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  drift:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+      - uses: actions/setup-node@v7
+        with:
+          node-version: 24
+      - run: node scripts/generate-types.mjs --fetch
+      - run: git diff --stat --exit-code -- openapi src/generated.ts
