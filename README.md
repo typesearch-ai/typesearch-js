@@ -55,7 +55,6 @@ explicitly. Keep keys on the server: never ship one to a browser or a mobile app
 | `siteSearchAndWait(site, query, options?)` | `POST /v1/search/site` | The same, waiting for the result. |
 | `siteSearchStream(site, query, options?)` | `POST /v1/search/site` | The same, as events. |
 | `jobs.get(id)` · `jobs.wait(id)` | `GET /v1/jobs/{id}` | A job's status and result. |
-| `sources()` · `sources({ domain })` | `GET /v1/sources` | Coverage by country and language, or whether one domain is covered. |
 | `usage()` | `GET /v1/usage` | Usage, limits and credit of your key. |
 
 Options and response fields have the same names as the [HTTP API](https://typesearch.ai/docs/api-reference)
@@ -96,8 +95,9 @@ const res = await ts.search('inflation', {
 for (const r of res.results) console.log(r.country, r.language, r.title);
 ```
 
-Every result carries the `country` and `language` of its source (`null` when unknown). `similar()` takes
-the same two filters, and `sources()` tells how many sources each country and language has.
+Every result carries the `country` and `language` of its source (`null` when unknown), and `similar()` takes
+the same two filters. The index covers news from 130+ countries in 30+ languages. Missing an outlet? Suggest
+it from the [dashboard](https://app.typesearch.ai) (**Suggest a source**) or write to support@typesearch.ai.
 
 ### Stream
 
@@ -149,14 +149,9 @@ for await (const event of ts.siteSearchStream('diarioejemplo.example', 'el dóla
 
 `jobs.wait()` resolves with the job's result and throws `JobFailedError` if the job fails.
 
-### Coverage and usage
+### Usage
 
 ```ts
-const coverage = await ts.sources(); // sources and articles, by country and language
-
-const site = await ts.sources({ domain: 'diarioejemplo.example' });
-if (site.covered) console.log(site.name, site.articles);
-
 const usage = await ts.usage();
 console.log(usage.today.remaining_tokens, usage.limits.requests_per_minute);
 ```

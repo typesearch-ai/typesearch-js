@@ -176,21 +176,9 @@ describe('live site search and jobs', () => {
   });
 });
 
-describe('coverage and usage', () => {
-  test('sources(): the aggregate coverage', async () => {
-    const res = await ts.sources();
-    expect(api.last.path).toBe('/v1/sources');
-    expect([...api.last.query.keys()]).toEqual([]);
-    expect(res.by_country[0]?.country).toBe('AR');
-  });
-
-  test('sources({ domain }): whether one domain is covered', async () => {
-    const yes = await ts.sources({ domain: 'diarioejemplo.example' });
-    expect(api.last.query.get('domain')).toBe('diarioejemplo.example');
-    expect(yes.covered && yes.name).toBe('Diario Ejemplo');
-    const no = await ts.sources({ domain: 'otro diario.example' });
-    expect(api.last.query.get('domain')).toBe('otro diario.example');
-    expect(no.covered).toBe(false);
+describe('usage', () => {
+  test('the index coverage is not part of the public API: there is no sources()', () => {
+    expect('sources' in ts).toBe(false);
   });
 
   test('usage()', async () => {

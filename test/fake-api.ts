@@ -95,7 +95,7 @@ export function searchResponse(extra: Partial<Record<keyof SearchResponse, unkno
     reference: null,
     temporal: null,
     site: null,
-    index: { sources: 3, articles: 1200, updated_at: '2026-09-22T14:05:02.000Z' },
+    index: null,
     usage: { tokens: 1840, calls: 2, cost_usd: 0, headlines: 160, from_memory: 12, pages_direct: 0, pages_browser: 0, duration_ms: 910 },
     budget: null,
     discovery: null,
@@ -188,7 +188,6 @@ export class FakeApi {
       if (ruta === 'POST /v1/search/site') return this.#site(res, body);
       if (ruta === 'POST /v1/contents') return this.#contents(res, body);
       if (req.method === 'GET' && url.pathname.startsWith('/v1/jobs/')) return this.#job(res, decodeURIComponent(url.pathname.slice(9)));
-      if (ruta === 'GET /v1/sources') return this.#sources(res, url.searchParams);
       if (ruta === 'GET /v1/usage') return this.#json(res, 200, usage(), 'Usage');
       return this.#json(res, 404, problem(404, 'not_found'), 'Problem');
     } catch (e) {
@@ -258,22 +257,6 @@ export class FakeApi {
           },
     );
     this.#json(res, 200, { id: 'req_fakecont', object: 'contents', results, usage: { tokens: 1320, calls: 1, cost_usd: 0, duration_ms: 1840 } }, 'ContentsResponse');
-  }
-
-  #sources(res: http.ServerResponse, q: URLSearchParams) {
-    const domain = q.get('domain');
-    if (domain === null) {
-      return this.#json(
-        res,
-        200,
-        { object: 'sources', updated_at: '2026-09-22T14:05:02.000Z', total: 3, articles: 1200, by_country: [{ country: 'AR', sources: 3 }], by_language: [{ language: 'es', sources: 3 }] },
-        'Sources',
-      );
-    }
-    if (domain === 'diarioejemplo.example') {
-      return this.#json(res, 200, { object: 'source', domain, covered: true, name: 'Diario Ejemplo', country: 'AR', languages: ['es'], articles: 1520, last_refreshed_at: '2026-09-22T14:05:02.000Z' }, 'Source');
-    }
-    this.#json(res, 200, { object: 'source', domain, covered: false }, 'Source');
   }
 
   #stream(res: http.ServerResponse, final: SearchResponse) {

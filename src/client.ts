@@ -18,8 +18,6 @@ import type {
   SimilarResponse,
   SiteSearchOptions,
   SiteSearchResponse,
-  Source,
-  Sources,
   Usage,
 } from './types.ts';
 import { VERSION } from './version.ts';
@@ -173,15 +171,6 @@ export class Typesearch {
   /** A live site search as a stream of events, instead of a job. */
   siteSearchStream(site: string, query: string, options: SiteSearchOptions = {}, request?: RequestOptions): SearchStream {
     return new SearchStream(() => this.openStream('/v1/search/site', { site, query, ...body(options), stream: true }, request));
-  }
-
-  /** The coverage of the index in aggregate: sources and articles, by country and by language. */
-  sources(params?: { domain?: undefined }, request?: RequestOptions): Promise<Sources>;
-  /** Whether one domain is covered and, when it is, its name, country, languages and articles. */
-  sources(params: { domain: string }, request?: RequestOptions): Promise<Source>;
-  sources(params: { domain?: string } = {}, request?: RequestOptions): Promise<Sources | Source> {
-    const query = params.domain === undefined ? '' : `?domain=${encodeURIComponent(params.domain)}`;
-    return this.send('GET', `/v1/sources${query}`, undefined, request);
   }
 
   /** Usage today and over the last 30 days, the limits of this key, its credit and the price list. */

@@ -1,4 +1,4 @@
-// Generado por scripts/generate-types.mjs desde el OpenAPI de la API (1.0.0, 336df2c4e996).
+// Generado por scripts/generate-types.mjs desde el OpenAPI de la API (1.0.0, 7de58d27da41).
 // No editar a mano: `npm run generate` (o `npm run generate -- --fetch` para traer el vivo).
 
 /** Any JSON value. */
@@ -7,13 +7,13 @@ export type JsonValue = string | number | boolean | null | JsonValue[] | { [key:
 export interface SearchRequest {
   /** One query, or up to 5 judged together. 1–5 items. */
   query: string | string[];
-  /** Only these index sources, by domain, such as example.com. GET /v1/sources?domain=… tells you whether a domain is covered. 1–100 items. */
+  /** Only these index sources, by domain, such as example.com. A domain that is not in the index comes back as a domain_not_indexed warning. 1–100 items. */
   sources?: string[];
   /** Only these domains or paths. A domain includes its subdomains. At most 20 items. */
   include_domains?: string[];
   /** Never these domains or paths. At most 20 items. */
   exclude_domains?: string[];
-  /** Only sources from these countries: ISO 3166-1 alpha-2 codes, such as AR or US. GET /v1/sources tells how many sources each country has. 1–50 items. */
+  /** Only sources from these countries: ISO 3166-1 alpha-2 codes, such as AR or US. 1–50 items. */
   countries?: string[];
   /** Only sources that publish in these languages: ISO 639-1 codes, such as es or en (a BCP 47 tag such as pt-BR counts as pt). 1–20 items. */
   languages?: string[];
@@ -82,13 +82,13 @@ export interface ScoreQuestion {
 
 export interface SimilarRequest {
   url: string;
-  /** Only these index sources, by domain, such as example.com. GET /v1/sources?domain=… tells you whether a domain is covered. 1–100 items. */
+  /** Only these index sources, by domain, such as example.com. A domain that is not in the index comes back as a domain_not_indexed warning. 1–100 items. */
   sources?: string[];
   /** Only these domains or paths. A domain includes its subdomains. At most 20 items. */
   include_domains?: string[];
   /** Never these domains or paths. At most 20 items. */
   exclude_domains?: string[];
-  /** Only sources from these countries: ISO 3166-1 alpha-2 codes, such as AR or US. GET /v1/sources tells how many sources each country has. 1–50 items. */
+  /** Only sources from these countries: ISO 3166-1 alpha-2 codes, such as AR or US. 1–50 items. */
   countries?: string[];
   /** Only sources that publish in these languages: ISO 639-1 codes, such as es or en (a BCP 47 tag such as pt-BR counts as pt). 1–20 items. */
   languages?: string[];
@@ -395,8 +395,7 @@ export interface Reference {
 }
 
 export interface IndexInfo {
-  sources: number;
-  articles: number;
+  /** The oldest last refresh among the sources searched: how fresh the index was for this request. */
   updated_at: string | null;
 }
 
@@ -495,42 +494,6 @@ export interface Job {
   error: Problem | null;
 }
 
-export interface Sources {
-  object: "sources";
-  /** The oldest last ingestion across the index: its freshness is that of its most stale source. */
-  updated_at: string | null;
-  /** Sources in the index. */
-  total: number;
-  /** Articles in the whole index. */
-  articles: number;
-  by_country: CountryCoverage[];
-  by_language: LanguageCoverage[];
-}
-
-export interface CountryCoverage {
-  /** ISO 3166 alpha-2; null for international sources. */
-  country: string | null;
-  sources: number;
-}
-
-export interface LanguageCoverage {
-  /** ISO 639-1. */
-  language: string;
-  sources: number;
-}
-
-export interface Source {
-  object: "source";
-  domain: string;
-  /** Whether the domain is in the index and available. */
-  covered: boolean;
-  name?: string | null;
-  country?: string | null;
-  languages?: string[];
-  articles?: number;
-  last_refreshed_at?: string | null;
-}
-
 export interface Usage {
   object: "usage";
   key: UsageKey;
@@ -601,13 +564,13 @@ export interface PagePricing {
 
 /** Options for `search()` and `searchStream()`: every field of `POST /v1/search` but `query`. */
 export interface SearchOptions {
-  /** Only these index sources, by domain, such as example.com. GET /v1/sources?domain=… tells you whether a domain is covered. 1–100 items. */
+  /** Only these index sources, by domain, such as example.com. A domain that is not in the index comes back as a domain_not_indexed warning. 1–100 items. */
   sources?: string[];
   /** Only these domains or paths. A domain includes its subdomains. At most 20 items. */
   include_domains?: string[];
   /** Never these domains or paths. At most 20 items. */
   exclude_domains?: string[];
-  /** Only sources from these countries: ISO 3166-1 alpha-2 codes, such as AR or US. GET /v1/sources tells how many sources each country has. 1–50 items. */
+  /** Only sources from these countries: ISO 3166-1 alpha-2 codes, such as AR or US. 1–50 items. */
   countries?: string[];
   /** Only sources that publish in these languages: ISO 639-1 codes, such as es or en (a BCP 47 tag such as pt-BR counts as pt). 1–20 items. */
   languages?: string[];
@@ -645,13 +608,13 @@ export interface SearchOptions {
 
 /** Options for `similar()`: every field of `POST /v1/similar` but `url`. */
 export interface SimilarOptions {
-  /** Only these index sources, by domain, such as example.com. GET /v1/sources?domain=… tells you whether a domain is covered. 1–100 items. */
+  /** Only these index sources, by domain, such as example.com. A domain that is not in the index comes back as a domain_not_indexed warning. 1–100 items. */
   sources?: string[];
   /** Only these domains or paths. A domain includes its subdomains. At most 20 items. */
   include_domains?: string[];
   /** Never these domains or paths. At most 20 items. */
   exclude_domains?: string[];
-  /** Only sources from these countries: ISO 3166-1 alpha-2 codes, such as AR or US. GET /v1/sources tells how many sources each country has. 1–50 items. */
+  /** Only sources from these countries: ISO 3166-1 alpha-2 codes, such as AR or US. 1–50 items. */
   countries?: string[];
   /** Only sources that publish in these languages: ISO 639-1 codes, such as es or en (a BCP 47 tag such as pt-BR counts as pt). 1–20 items. */
   languages?: string[];

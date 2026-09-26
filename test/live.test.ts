@@ -1,8 +1,8 @@
 /*
  * Contra la API de verdad: corre sólo con `npm run test:live` y TYPESEARCH_API_KEY en el entorno (con
  * `npm test` se saltea aunque haya clave, para no gastar sin querer).
- * Gasta muy poco: tres búsquedas `fast` de 3 resultados y el contenido de una URL; `sources` y
- * `usage` no cobran. Con TYPESEARCH_LIVE_FULL=1 suma `similar` y una búsqueda en un sitio en vivo.
+ * Gasta muy poco: tres búsquedas `fast` de 3 resultados y el contenido de una URL; `usage` no cobra.
+ * Con TYPESEARCH_LIVE_FULL=1 suma `similar` y una búsqueda en un sitio en vivo.
  * TYPESEARCH_BASE_URL apunta a otra API (local o de prueba).
  */
 import { describe, expect, test } from 'vitest';
@@ -15,14 +15,10 @@ describe.skipIf(!key)('live API', () => {
   // Sin clave el bloque se saltea, pero su cuerpo igual se ejecuta al juntar las pruebas.
   const ts = key ? new Typesearch({ apiKey: key }) : (undefined as never);
 
-  test('usage and coverage (free)', async () => {
+  test('usage (free)', async () => {
     const usage = await ts.usage();
     expect(usage.object).toBe('usage');
     expect(usage.limits.requests_per_minute).toBeGreaterThan(0);
-    const coverage = await ts.sources();
-    expect(coverage.total).toBeGreaterThan(0);
-    const one = await ts.sources({ domain: 'example.com' });
-    expect(one.object).toBe('source');
   });
 
   let url: string | undefined;

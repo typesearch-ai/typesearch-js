@@ -34,8 +34,6 @@ const COMPONENTES = [
   'ContentsResponse',
   'Problem',
   'Job',
-  'Sources',
-  'Source',
   'Usage',
 ];
 
@@ -88,8 +86,6 @@ const NOMBRES = {
   'ContentsResponse.results[].error': 'ContentsError',
   'ContentsResponse.usage': 'ContentsUsage',
   'Problem.errors[]': 'FieldError',
-  'Sources.by_country[]': 'CountryCoverage',
-  'Sources.by_language[]': 'LanguageCoverage',
   'Usage.key': 'UsageKey',
   'Usage.limits': 'UsageLimits',
   'Usage.today': 'UsageToday',
@@ -132,7 +128,6 @@ const DOCS = {
   'Job.status': '`queued`, `running`, `succeeded` (with `result`) or `failed` (with `error`).',
   'Job.result': 'The search response, once the job succeeded.',
   'Job.error': 'The problem details, if the job failed.',
-  'Source.covered': 'Whether the domain is in the index.',
   'Usage.today': 'Since 00:00 UTC.',
   'Usage.credit': 'The prepaid credit of the organization.',
   'Usage.pricing': 'The price list, in USD per 1,000 requests or pages.',

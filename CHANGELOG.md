@@ -8,8 +8,7 @@ All notable changes to `typesearch-js` are documented here. The format follows
 First release.
 
 - `Typesearch` client for every endpoint of the typesearch API v1: `search`, `searchStream`, `similar`,
-  `contents`, `siteSearch`, `siteSearchAndWait`, `siteSearchStream`, `jobs.get`, `jobs.wait`, `sources`
-  and `usage`.
+  `contents`, `siteSearch`, `siteSearchAndWait`, `siteSearchStream`, `jobs.get`, `jobs.wait` and `usage`.
 - Request and response types generated from the API's OpenAPI document.
 - `countries` and `languages` filters in `search`, `searchStream` and `similar`; every result carries the
   `country` and `language` of its source.
