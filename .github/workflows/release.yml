@@ -1,7 +1,7 @@
 # Publishes to npm when a GitHub release is published (tag v<version>), with provenance.
 #
 # Trusted publishing (OIDC): no token is stored once the package exists on npm and this repository and
-# workflow are its trusted publisher (see PUBLICAR.md). The very first publish needs an npm token in the
+# workflow are its trusted publisher (see PUBLICAR.md, or PUBLISHING.md in English). The very first publish needs an npm token in the
 # NPM_TOKEN secret of the `npm` environment; delete it afterwards.
 name: Release
 

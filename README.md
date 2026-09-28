@@ -208,8 +208,8 @@ it.
 
 ## Examples
 
-[`examples/`](examples) has three short scripts: [search](examples/search.ts),
-[contents](examples/contents.ts) and [streaming](examples/stream.ts).
+[`examples/`](https://github.com/typesearch-ai/typesearch-js/tree/main/examples) has three short scripts: [search](https://github.com/typesearch-ai/typesearch-js/blob/main/examples/search.ts),
+[contents](https://github.com/typesearch-ai/typesearch-js/blob/main/examples/contents.ts) and [streaming](https://github.com/typesearch-ai/typesearch-js/blob/main/examples/stream.ts).
 
 ## Development
 
@@ -224,4 +224,4 @@ npm run build && npm run smoke
 
 ## License
 
-[MIT](LICENSE)
+[MIT](https://github.com/typesearch-ai/typesearch-js/blob/main/LICENSE)
